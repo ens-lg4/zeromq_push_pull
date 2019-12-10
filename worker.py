@@ -10,7 +10,8 @@ import time
 import zmq
 import os
 
-HUB_IP  = os.getenv('HUB_IP', 'localhost')
+HUB_IP      = os.getenv('HUB_IP', 'localhost')
+JOBS_LIMIT  = int(os.getenv('JOBS_LIMIT', 0))
 
 worker_id = os.getpid()
 print("[worker {}] READY".format(worker_id))
@@ -23,7 +24,10 @@ from_factory.connect('tcp://{}:5557'.format(HUB_IP))
 to_funnel = context.socket(zmq.PUSH)
 to_funnel.connect('tcp://{}:5558'.format(HUB_IP))
 
-while True:
+
+done_count = 0
+
+while JOBS_LIMIT<1 or done_count < JOBS_LIMIT:
     job = from_factory.recv_json()
 
     print("[worker {}] {}".format(worker_id, job))
@@ -31,3 +35,5 @@ while True:
 
     job['worker_id'] = worker_id
     to_funnel.send_json(job)
+
+    done_count += 1
