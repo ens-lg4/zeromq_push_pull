@@ -8,12 +8,13 @@ import threading
 import zmq
 import random
 import time
+import os
 
-TOTAL_JOBS          = 100
-JOB_MIN_MILLISEC    = 10    # job's time, spent on the worker
-JOB_MAX_MILLISEC    = 200
-SUB_MIN_MILLISEC    = 2     # submission time, spent on the fan
-SUB_MAX_MILLISEC    = 10
+TOTAL_JOBS          = int(os.getenv('TOTAL_JOBS', 100))
+JOB_MIN_MILLISEC    = int(os.getenv('JOB_MIN_MILLISEC',  10))   # job's time, spent on the worker
+JOB_MAX_MILLISEC    = int(os.getenv('JOB_MAX_MILLISEC', 200))
+SUB_MIN_MILLISEC    = int(os.getenv('SUB_MIN_MILLISEC',   2))   # submission time, spent on the fan
+SUB_MAX_MILLISEC    = int(os.getenv('SUB_MAX_MILLISEC',  10))
 
 try:
     raw_input
