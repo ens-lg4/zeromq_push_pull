@@ -10,16 +10,18 @@ import time
 import zmq
 import os
 
+HUB_IP  = os.getenv('HUB_IP', 'localhost')
+
 worker_id = os.getpid()
 print("[worker {}] READY".format(worker_id))
 
 context = zmq.Context()
 
 from_factory = context.socket(zmq.PULL)
-from_factory.connect("tcp://localhost:5557")
+from_factory.connect('tcp://{}:5557'.format(HUB_IP))
 
 to_funnel = context.socket(zmq.PUSH)
-to_funnel.connect("tcp://localhost:5558")
+to_funnel.connect('tcp://{}:5558'.format(HUB_IP))
 
 while True:
     job = from_factory.recv_json()
