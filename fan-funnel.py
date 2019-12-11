@@ -22,14 +22,14 @@ except NameError:
     # Python 3
     raw_input = input
 
-context = zmq.Context()
+zmq_context = zmq.Context()
 
 # Socket to send tasks on
-to_workers = context.socket(zmq.PUSH)
+to_workers = zmq_context.socket(zmq.PUSH)
 to_workers.bind("tcp://*:5557")
 
 # Socket to receive results on
-from_workers = context.socket(zmq.PULL)
+from_workers = zmq_context.socket(zmq.PULL)
 from_workers.bind("tcp://*:5558")
 
 in_progress = {}

@@ -16,12 +16,12 @@ JOBS_LIMIT  = int(os.getenv('JOBS_LIMIT', 0))
 worker_id = os.getpid()
 print("[worker {}] READY".format(worker_id))
 
-context = zmq.Context()
+zmq_context = zmq.Context()
 
-from_factory = context.socket(zmq.PULL)
+from_factory = zmq_context.socket(zmq.PULL)
 from_factory.connect('tcp://{}:5557'.format(HUB_IP))
 
-to_funnel = context.socket(zmq.PUSH)
+to_funnel = zmq_context.socket(zmq.PUSH)
 to_funnel.connect('tcp://{}:5558'.format(HUB_IP))
 
 
